@@ -1,0 +1,35 @@
+<%@ page pageEncoding="UTF-8" %>
+
+<div class="letters">
+    <jsp:useBean id="lettersList" scope="page" class="com.library.beans.LettersList" />
+    
+    <%
+        request.setCharacterEncoding("UTF-8");
+        
+        String let = null;
+        
+        if (request.getParameter("letter") != null) {
+            let = request.getParameter("letter");
+            session.setAttribute("letter", let);
+        } else if (session.getAttribute("letter") != null) {
+            let = session.getAttribute("letter").toString();
+        } 
+
+        session.setAttribute("genre_id", null);
+        session.setAttribute("search_String", "");
+
+    %>
+    
+    <%
+        char[] letters = lettersList.getRussionLetters();
+        for (int i = 0; i < letters.length; i++) {
+
+            if (let != null && let.toString().toUpperCase().charAt(0) == letters[i]) {
+    %>
+    <a style="color:red;" href="books.jsp?letter=<%=letters[i]%>"><%=letters[i]%></a>
+    <%}else {%>
+    <a href="books.jsp?letter=<%=letters[i]%>"><%=letters[i]%></a>
+    <%}%>
+    <%}%>
+</div>
+
